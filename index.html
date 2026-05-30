@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | Savings Goal Tracker</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+
+<style>
+  body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  .login-card {
+    background: rgba(179, 225, 255, 0.97);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .login-logo {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+  }
+
+  .input-group-text {
+    background: #e8f4fd;
+    border-right: none;
+    color: #1a73e8;
+  }
+
+  .input-group .form-control {
+    border-left: none;
+  }
+
+  .input-group .form-control:focus {
+    box-shadow: none;
+    border-color: #1a73e8;
+  }
+
+  .input-group:focus-within .input-group-text {
+    border-color: #1a73e8;
+  }
+
+  .btn-login {
+    background: linear-gradient(135deg, #1a73e8, #0f2027);
+    color: #fff;
+    font-weight: 600;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    transition: opacity 0.2s;
+  }
+
+  .btn-login:hover {
+    opacity: 0.88;
+    color: #fff;
+  }
+
+  .divider {
+    border-top: 1px solid #e9ecef;
+    margin: 1.2rem 0;
+  }
+
+  .show-pass {
+    background: #e8f4fd;
+    border-left: none;
+    cursor: pointer;
+    color: #6c757d;
+  }
+
+  .show-pass:hover {
+    color: #1a73e8;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="login-card">
+
+  <!-- LOGO & TITLE -->
+  <div class="text-center mb-4">
+    <img src="assets/img/savings.png" class="login-logo mb-3"
+         onerror="this.style.display='none'">
+    <h4 class="fw-bold mb-1" style="color:#006eff;">Savings Goal Tracker System</h4>
+    <p class="text-muted small mb-0">Personal Finance Management System</p>
+  </div>
+
+  <!-- ERROR -->
+  <div id="error" class="alert alert-danger py-2 text-center small fw-bold d-none"></div>
+
+  <!-- USERNAME -->
+  <div class="mb-3">
+    <label class="form-label small fw-semibold text-muted">Username</label>
+    <div class="input-group">
+      <span class="input-group-text">
+        <i class="bi bi-person-fill"></i>
+      </span>
+      <input type="text" id="username" class="form-control"
+             placeholder="Enter username" autocomplete="username">
+    </div>
+  </div>
+
+  <!-- PASSWORD -->
+  <div class="mb-2">
+    <label class="form-label small fw-semibold text-muted">Password</label>
+    <div class="input-group">
+      <span class="input-group-text">
+        <i class="bi bi-lock-fill"></i>
+      </span>
+      <input type="password" id="password" class="form-control"
+             placeholder="Enter password" autocomplete="current-password">
+      <button class="btn btn-outline-secondary show-pass" type="button"
+              onclick="togglePassword()" id="toggleBtn">
+        <i class="bi bi-eye" id="eyeIcon"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- FORGOT PASSWORD -->
+  <div class="text-end mb-4">
+    <a href="#" onclick="forgotPass()"
+       class="small text-decoration-none fw-semibold"
+       style="color:#0084ff;">
+      Forgot Password?
+    </a>
+  </div>
+
+  <!-- LOGIN BUTTON -->
+  <button type="button" onclick="login()" class="btn btn-login w-100 mb-3">
+    <i class="bi bi-box-arrow-in-right me-2"></i> Login
+  </button>
+
+  <div class="divider"></div>
+
+  <!-- REGISTER -->
+  <div class="text-center">
+    <p class="small text-muted mb-1">Don't have an account?</p>
+    <a href="#" onclick="signUp()"
+       class="fw-bold text-decoration-none"
+       style="color:#0077ff; font-size:15px;">
+      <i class="bi bi-person-plus-fill me-1"></i> Create New Account
+    </a>
+  </div>
+
+  <small class="d-block text-center mt-4 text-muted">
+    © 2026 Savings Goal Tracker System
+  </small>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+function togglePassword() {
+  let input = document.getElementById("password");
+  let icon  = document.getElementById("eyeIcon");
+  if (input.type === "password") {
+    input.type = "text";
+    icon.className = "bi bi-eye-slash";
+  } else {
+    input.type = "password";
+    icon.className = "bi bi-eye";
+  }
+}
+
+function showError(msg) {
+  let el = document.getElementById("error");
+  el.innerText = msg;
+  el.classList.remove("d-none");
+}
+
+function hideError() {
+  document.getElementById("error").classList.add("d-none");
+}
+
+function login() {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value;
+
+  let savedUser = localStorage.getItem("validUser") || "admin";
+  let savedPass = localStorage.getItem("validPass") || "1234";
+
+  if (!username || !password) {
+    showError("Please enter your username and password.");
+    return;
+  }
+
+  if (username === savedUser && password === savedPass) {
+    hideError();
+    Swal.fire({
+      title: 'Login Successful!',
+      text: 'Welcome to Savings Goal Tracker',
+      icon: 'success',
+      confirmButtonColor: '#198754'
+    }).then(() => {
+      window.location.href = "dashboard.html";
+    });
+  } else {
+    showError("Invalid username or password. Access denied.");
+  }
+}
+
+async function signUp() {
+  const { value: formValues } = await Swal.fire({
+    title: 'Register New Account',
+    html:
+      '<input id="swal-input1" class="swal2-input" placeholder="New Username">' +
+      '<input id="swal-input2" class="swal2-input" type="password" placeholder="New Password">',
+    focusConfirm: false,
+    confirmButtonText: 'Register',
+    confirmButtonColor: '#198754',
+    showCancelButton: true,
+    preConfirm: () => {
+      return [
+        document.getElementById('swal-input1').value,
+        document.getElementById('swal-input2').value
+      ];
+    }
+  });
+
+  if (formValues) {
+    const [newUser, newPass] = formValues;
+    if (newUser && newPass) {
+      localStorage.setItem("validUser", newUser);
+      localStorage.setItem("validPass", newPass);
+      Swal.fire({ title:'Success!', text:'Account created! Please login.', icon:'success', confirmButtonColor:'#198754' });
+    } else {
+      Swal.fire('Error', 'Please enter both username and password', 'error');
+    }
+  }
+}
+
+async function forgotPass() {
+  const { value: email } = await Swal.fire({
+    title: 'Reset Password',
+    input: 'email',
+    inputLabel: 'Enter your registered email',
+    inputPlaceholder: 'example@email.com',
+    confirmButtonColor: '#198754',
+    showCancelButton: true
+  });
+
+  if (email) {
+    const { value: password } = await Swal.fire({
+      title: 'New Password',
+      input: 'password',
+      inputLabel: 'Enter your new password',
+      inputPlaceholder: 'New Password',
+      confirmButtonColor: '#198754',
+      showCancelButton: true
+    });
+
+    if (password) {
+      localStorage.setItem("validPass", password);
+      Swal.fire({ title:'Success!', text:'Password reset successful. Please login again.', icon:'success', confirmButtonColor:'#198754' });
+    }
+  }
+}
+
+document.getElementById("password").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") login();
+});
+
+document.getElementById("username").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") document.getElementById("password").focus();
+});
+
+</script>
+</body>
+</html>

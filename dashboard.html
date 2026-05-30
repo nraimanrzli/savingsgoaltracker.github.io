@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard | Savings Goal Tracker</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  body {
+    background: linear-gradient(160deg, #0f2027, #203a43, #2c5364);
+    background-attachment: fixed;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 16px !important;
+  }
+
+  .uitm-header {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .uitm-header h1,
+  .uitm-header p {
+    color: #fff !important;
+  }
+
+  h4, h4 strong {
+    color: #ffffff;
+  }
+
+  p.text-muted {
+    color: #0095ff !important;
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+<header class="uitm-header">
+  <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
+    <div class="d-flex align-items-center mb-3 mb-md-0">
+      <div class="logo-group">
+          <img src="assets/img/savings.png" height="150">
+      </div>
+    </div>
+    <div class="text-center text-md-end">
+        <h1 class="h3">Savings Goal Tracker System</h1>
+        <p class="small text-muted">Manage your savings goals and financial progress</p>
+    </div>
+  </div>
+</header>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container">
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="nav">
+      <span id="datetime" class="navbar-text text-light small me-4"></span>
+
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="dashboard.html">
+            <i class="bi bi-speedometer2"></i> Dashboard
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="goals.html">
+            <i class="bi bi-bullseye"></i> Savings Goals
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="transactions.html">
+            <i class="bi bi-cash-stack"></i> Transactions
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="profile.html">
+            <i class="bi bi-person"></i> Profile
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-danger" href="#" onclick="logout()">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4 mb-5">
+
+  <div id="mainCarousel" class="carousel slide mb-5 shadow-sm" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
+    </div>
+
+    <div class="carousel-inner rounded-3">
+      <div class="carousel-item active slide-bg-1" style="background: linear-gradient(135deg, #198754, #14532d);">
+         <div class="d-flex h-100 align-items-center justify-content-center text-white text-center p-4">
+             <div>
+               <i class="bi bi-piggy-bank display-3 mb-3"></i>
+               <h2>Build Emergency Fund</h2>
+               <p>Save consistently for unexpected expenses.</p>
+             </div>
+         </div>
+      </div>
+
+      <div class="carousel-item slide-bg-2" style="background: linear-gradient(135deg, #0d6efd, #1e3a8a);">
+         <div class="d-flex h-100 align-items-center justify-content-center text-white text-center p-4">
+             <div>
+               <i class="bi bi-airplane display-3 mb-3"></i>
+               <h2>Travel Savings Goal</h2>
+               <p>Plan your dream vacation with smart savings.</p>
+             </div>
+         </div>
+      </div>
+
+      <div class="carousel-item slide-bg-3" style="background: linear-gradient(135deg, #fd7e14, #9a3412);">
+         <div class="d-flex h-100 align-items-center justify-content-center text-white text-center p-4">
+             <div>
+               <i class="bi bi-graph-up-arrow display-3 mb-3"></i>
+               <h2>Track Financial Progress</h2>
+               <p>Monitor your monthly savings growth easily.</p>
+             </div>
+         </div>
+      </div>
+    </div>
+  </div>
+
+  <h4>Welcome back, <strong>Aiman</strong></h4>
+  <p class="text-muted">Here is your savings summary.</p>
+
+  <div class="row mt-3">
+    <div class="col-md-4">
+      <div class="card p-3 text-center shadow-sm border-0 mb-3">
+        <i class="bi bi-wallet2 fs-1 text-primary"></i>
+        <h6 class="mt-2">Total Savings</h6>
+        <h2 id="totalSavings">RM 0</h2>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-3 text-center shadow-sm border-0 mb-3">
+        <i class="bi bi-check-circle fs-1 text-success"></i>
+        <h6 class="mt-2">Goals Completed</h6>
+        <h2 id="completedGoals">0</h2>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-3 text-center shadow-sm border-0 mb-3">
+        <i class="bi bi-hourglass-split fs-1 text-warning"></i>
+        <h6 class="mt-2">Goals In Progress</h6>
+        <h2 id="pendingGoals">0</h2>
+      </div>
+    </div>
+  </div>
+
+<div class="row mt-4">
+    <div class="col-md-6 mb-4">
+      <div class="card border-0 shadow-sm p-4 h-100">
+          <h5 class="text-center mb-3">Goal Completion Status</h5>
+          <div class="d-flex justify-content-center align-items-center h-100">
+            <div style="width:300px;">
+              <canvas id="statusChart"></canvas>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    
+    <!-- Income vs Expense Bar Chart -->
+    <div class="col-md-6 mb-4">
+      <div class="card border-0 shadow-sm p-4 h-100">
+        <h5 class="text-center mb-3">Income vs Expense</h5>
+        <div class="d-flex justify-content-center align-items-center h-100">
+          <canvas id="transactionChart"></canvas>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-dark pt-5 pb-3 mt-auto text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <h6 class="fw-bold">Savings Goal Tracker</h6>
+        <p class="small text-white-50">Manage your financial future with better planning.</p>
+      </div>
+      <div class="col-md-4 mb-3">
+        <h6 class="fw-bold">Quick Links</h6>
+        <ul class="list-unstyled small">
+          <li><a href="dashboard.html" class="text-white text-decoration-none">Dashboard</a></li>
+          <li><a href="goals.html" class="text-white text-decoration-none">Savings Goals</a></li>
+          <li><a href="transactions.html" class="text-white text-decoration-none">Transactions</a></li>
+          <li><a href="profile.html" class="text-white text-decoration-none">Profile</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-3">
+        <h6 class="fw-bold">Contact</h6>
+        <p class="small text-white-50">support@savingsgoaltracker.com</p>
+        <p class="small text-white-50">Phone: +60 3-1234 5678</p>
+      </div>
+    </div>
+    <div class="text-center small text-white-50 mt-4 border-top border-secondary pt-3">
+      © 2026 Savings Goal Tracking System
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+setInterval(function() {
+  var now = new Date();
+  document.getElementById("datetime").innerText = now.toLocaleString('en-MY', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}, 1000);
+
+function logout() {
+  alert('Logged out successfully');
+  window.location.href = 'index.html';
+}
+
+window.onload = function () {
+  let goals = JSON.parse(localStorage.getItem("goals")) || [];
+
+  let totalSavings = goals.reduce((sum, g) => sum + parseFloat(g.saved || 0), 0);
+  let completed = goals.filter(g => g.status === "Completed").length;
+  let delayed = goals.filter(g => g.status === "Delayed").length;
+  let inProgress = goals.filter(g => g.status === "In Progress").length;
+
+  document.getElementById("totalSavings").innerText = "RM " + totalSavings.toLocaleString();
+  document.getElementById("completedGoals").innerText = completed;
+  document.getElementById("pendingGoals").innerText = inProgress + delayed;
+
+const hasGoals = (completed + inProgress + delayed) > 0;
+  new Chart(document.getElementById("statusChart"), {
+    type: 'doughnut',
+    data: {
+      labels: ['Completed', 'In Progress', 'Delayed'],
+      datasets: [{
+        data: hasGoals ? [completed, inProgress, delayed] : [1, 0, 0],
+        backgroundColor: hasGoals
+          ? ['#198754', '#ffc107', '#dc3545']
+          : ['#e0e0e0', '#e0e0e0', '#e0e0e0']
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { position: 'bottom' },
+        tooltip: {
+          callbacks: {
+            label: ctx => hasGoals ? ` ${ctx.label}: ${ctx.raw}` : ' No goals yet'
+          }
+        }
+      }
+    }
+  });
+
+
+  // Income vs Expense Bar Chart
+  let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+  let totalIncome = transactions
+    .filter(t => t.type === "Income")
+    .reduce((sum, t) => sum + parseFloat(t.amount || 0), 0);
+
+  let totalExpense = transactions
+    .filter(t => t.type === "Expense")
+    .reduce((sum, t) => sum + parseFloat(t.amount || 0), 0);
+
+  new Chart(document.getElementById("transactionChart"), {
+    type: 'bar',
+    data: {
+      labels: ['Income', 'Expense'],
+      datasets: [{
+        label: 'Amount (RM)',
+        data: [totalIncome, totalExpense],
+        backgroundColor: ['#198754', '#dc3545'],
+        borderRadius: 5
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
+    }
+  });
+
+};
+</script>
+</body>
+</html>
