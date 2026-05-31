@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Applications | InternTrack</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+<script src="assets/js/auth.js"></script>
+<script>checkLogin();</script>
+
+<header class="uitm-header">
+  <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
+    <div class="header-content-wrapper d-flex align-items-center mb-3 mb-md-0">
+      <div class="logo-group">
+          <img src="assets/img/jata.jpg" alt="Jata Negara">
+          <div class="vertical-divider"></div>
+          <img src="assets/img/uitm.png" alt="UiTM Logo">
+      </div>
+    </div>
+    <div class="text-center text-md-end">
+        <h1 class="h3">Internship System Tracker</h1>
+        <p class="small">Track your internship applications efficiently</p>
+    </div>
+  </div>
+</header>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container">
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      
+      <span id="datetime" class="navbar-text text-light small me-4"></span>
+
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="internships.html"><i class="bi bi-briefcase"></i> Internships</a></li>
+        <li class="nav-item"><a class="nav-link active" href="applications.html"><i class="bi bi-file-earmark-text"></i> Applications</a></li>
+        <li class="nav-item"><a class="nav-link" href="profile.html"><i class="bi bi-person"></i> Profile</a></li>
+        <li class="nav-item"><a class="nav-link text-danger" href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4 mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3>My Applications</h3>
+      <button class="btn btn-primary" onclick="openModal()"><i class="bi bi-plus-lg"></i> Add Application</button>
+  </div>
+
+  <div class="card border-0 shadow-sm mb-3">
+      <div class="card-body p-2">
+          <div class="input-group">
+              <span class="input-group-text bg-white border-0"><i class="bi bi-search"></i></span>
+              <input type="text" id="searchInput" class="form-control border-0" placeholder="Search applications..." onkeyup="searchTable()">
+          </div>
+      </div>
+  </div>
+
+  <div class="card shadow-sm border-0">
+      <div class="card-body p-0">
+          <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th class="ps-4">Company</th>
+                    <th>Position</th>
+                    <th>Date Applied</th> 
+                    <th>Status</th>
+                    <th class="text-end pe-4">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="listBody">
+                    </tbody>
+              </table>
+          </div>
+          <div id="noData" class="text-center p-5 text-muted" style="display:none;">
+              No applications recorded yet.
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="appModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-uitm text-white">
+        <h5 class="modal-title" id="modalTitle">Add Application</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="appForm">
+            <input type="hidden" id="editIndex">
+            <div class="mb-3"><label>Company</label><input id="company" class="form-control" required></div>
+            <div class="mb-3"><label>Position</label><input id="position" class="form-control" required></div>
+            <div class="row">
+                <div class="col"><label>Date Applied</label><input type="date" id="date" class="form-control" required></div>
+                <div class="col"><label>Status</label><select id="status" class="form-select"><option>Pending</option><option>Accepted</option><option>Rejected</option></select></div>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="saveData()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="bg-uitm pt-5 pb-3 mt-auto">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-3"><h6 class="fw-bold text-white">Internship Tracker</h6><p class="small text-white-50">Manage applications.</p></div>
+      <div class="col-md-4 mb-3">
+        <h6 class="fw-bold text-white">Quick Links</h6>
+        <ul class="list-unstyled small">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="internships.html">Internships</a></li>
+          <li><a href="applications.html">Applications</a></li>
+          <li><a href="profile.html">Profile</a></li>
+        </ul>
+      </div>      
+      <div class="col-md-4 mb-3"><h6 class="fw-bold text-white">Contact</h6><p class="small text-white-50">support@uitm.edu.my</p><p class="small text-white-50">Phone: +603-5544 2000</p></div>
+    </div>
+    <div class="text-center small text-white-50 mt-4 border-top border-secondary pt-3">© 2025 Internship System Tracker | UiTM</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function updateDateTime() {
+    var now = new Date();
+    document.getElementById("datetime").textContent = now.toLocaleString('en-MY', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+setInterval(updateDateTime, 1000);
+updateDateTime();
+
+var myModal;
+document.addEventListener("DOMContentLoaded", function() {
+    myModal = new bootstrap.Modal(document.getElementById('appModal'));
+    renderTable();
+});
+
+function getData() { 
+    return JSON.parse(localStorage.getItem("applications")) || []; 
+}
+
+function saveDataToStorage(data) { 
+    localStorage.setItem("applications", JSON.stringify(data)); 
+}
+
+function renderTable() {
+    var data = getData();
+    var tbody = document.getElementById("listBody");
+    tbody.innerHTML = "";
+    
+    if(data.length === 0) {
+        document.getElementById("noData").style.display = "block";
+    } else {
+        document.getElementById("noData").style.display = "none";
+    }
+
+    // LOOP
+    for(var i = 0; i < data.length; i++) {
+        var item = data[i];
+        
+        var badge = "bg-warning text-dark"; 
+        if(item.status === "Accepted") badge = "bg-success";
+        if(item.status === "Rejected") badge = "bg-danger";
+        
+        var row = `<tr>
+                <td class="ps-4 fw-bold">${item.company}</td>
+                <td>${item.position}</td>
+                <td>${item.date}</td>
+                <td><span class="badge ${badge}">${item.status}</span></td>
+                <td class="text-end pe-4">
+                    <button class="btn btn-sm btn-outline-primary" onclick="editItem(${i})"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteItem(${i})"><i class="bi bi-trash"></i></button>
+                </td>
+            </tr>`;
+        
+        tbody.innerHTML += row;
+    }
+}
+
+function openModal() {
+    document.getElementById("appForm").reset();
+    document.getElementById("editIndex").value = "";
+    document.getElementById("modalTitle").innerText = "Add Application";
+    myModal.show();
+}
+
+function editItem(index) {
+    var data = getData()[index];
+    document.getElementById("company").value = data.company;
+    document.getElementById("position").value = data.position;
+    document.getElementById("date").value = data.date;
+    document.getElementById("status").value = data.status;
+    document.getElementById("editIndex").value = index;
+    
+    document.getElementById("modalTitle").innerText = "Edit Application";
+    myModal.show();
+}
+
+function saveData() {
+    var company = document.getElementById("company").value;
+    var position = document.getElementById("position").value;
+    
+    if(!company || !position) { 
+        Swal.fire('Error','Missing fields','error'); 
+        return; 
+    }
+
+    var newItem = {
+        company: company,
+        position: position,
+        date: document.getElementById("date").value,
+        status: document.getElementById("status").value
+    };
+
+    var data = getData();
+    var idx = document.getElementById("editIndex").value;
+    
+    if(idx === "") {
+        data.push(newItem); 
+    } else {
+        data[idx] = newItem;
+    }
+
+    saveDataToStorage(data);
+    renderTable();
+    myModal.hide();
+    
+    Swal.fire({ title: 'Saved!', icon: 'success', timer: 1500, showConfirmButton: false });
+}
+
+function deleteItem(index) {
+    Swal.fire({
+        title: 'Delete?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33'
+    }).then(function(result) {
+        if (result.isConfirmed) {
+            var data = getData();
+            data.splice(index, 1);
+            saveDataToStorage(data);
+            renderTable();
+            Swal.fire('Deleted!', '', 'success');
+        }
+    });
+}
+
+function searchTable() {
+    var input = document.getElementById("searchInput").value.toUpperCase();
+    var rows = document.getElementById("listBody").getElementsByTagName("tr");
+    
+    for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        if (row.innerText.toUpperCase().indexOf(input) > -1) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    }
+}
+</script>
+</body>
+</html>

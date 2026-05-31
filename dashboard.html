@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard | InternTrack</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+<script src="assets/js/auth.js"></script>
+<script>checkLogin();</script>
+
+<header class="uitm-header">
+  <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
+    <div class="d-flex align-items-center mb-3 mb-md-0">
+      <div class="logo-group">
+          <img src="assets/img/jata.jpg" alt="Jata Negara">
+          <div class="vertical-divider"></div>
+          <img src="assets/img/uitm.png" alt="UiTM Logo">
+      </div>
+    </div>
+    <div class="text-center text-md-end">
+        <h1 class="h3">Internship System Tracker</h1>
+        <p class="small text-muted">Track your internship applications efficiently</p>
+    </div>
+  </div>
+</header>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container">
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="nav">
+      <span id="datetime" class="navbar-text text-light small me-4"></span>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="internships.html"><i class="bi bi-briefcase"></i> Internships</a></li>
+        <li class="nav-item"><a class="nav-link" href="applications.html"><i class="bi bi-file-earmark-text"></i> Applications</a></li>
+        <li class="nav-item"><a class="nav-link" href="profile.html"><i class="bi bi-person"></i> Profile</a></li>
+        <li class="nav-item"><a class="nav-link text-danger" href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4 mb-5">
+
+  <div id="mainCarousel" class="carousel slide mb-5 shadow-sm" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
+    </div>
+    <div class="carousel-inner rounded-3">
+      <div class="carousel-item active slide-bg-1">
+         <div class="d-flex h-100 align-items-center justify-content-center text-white text-center p-4">
+             <div><i class="bi bi-mortarboard display-3 mb-3"></i><h2>Final Semester Goals</h2><p>Submit your logbook before Week 14.</p></div>
+         </div>
+      </div>
+      <div class="carousel-item slide-bg-2">
+         <div class="d-flex h-100 align-items-center justify-content-center text-white text-center p-4">
+             <div><i class="bi bi-briefcase display-3 mb-3"></i><h2>New Opportunities</h2><p>Top companies are hiring interns now.</p></div>
+         </div>
+      </div>
+      <div class="carousel-item slide-bg-3">
+         <div class="d-flex h-100 align-items-center justify-content-center text-white text-center p-4">
+             <div><i class="bi bi-graph-up display-3 mb-3"></i><h2>Track Progress</h2><p>Monitor your application status easily.</p></div>
+         </div>
+      </div>
+    </div>
+  </div>
+
+  <h4>Welcome back, <strong>Haziq</strong></h4>
+  <p class="text-muted">Here is your internship summary.</p>
+
+  <div class="row mt-3">
+    <div class="col-md-4">
+      <div class="card p-3 text-center shadow-sm border-0 mb-3">
+        <i class="bi bi-send fs-1 text-primary"></i><h6 class="mt-2">Total Applied</h6><h2 id="totalApplied">0</h2>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3 text-center shadow-sm border-0 mb-3">
+        <i class="bi bi-check-circle fs-1 text-success"></i><h6 class="mt-2">Accepted</h6><h2 id="acceptedCount">0</h2>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3 text-center shadow-sm border-0 mb-3">
+        <i class="bi bi-hourglass-split fs-1 text-warning"></i><h6 class="mt-2">Pending</h6><h2 id="pendingCount">0</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-6 mb-4">
+      <div class="card border-0 shadow-sm p-4 h-100">
+          <h5 class="text-center mb-3">Application Status</h5>
+          <div class="d-flex justify-content-center align-items-center h-100">
+            <div style="width:300px;"><canvas id="statusChart"></canvas></div>
+          </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4">
+      <div class="card border-0 shadow-sm p-4 h-100">
+          <h5 class="text-center mb-3">Top Target Positions</h5>
+          <div class="d-flex justify-content-center align-items-center h-100">
+             <canvas id="positionChart"></canvas>
+          </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="bg-uitm pt-5 pb-3 mt-auto">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-3"><h6 class="fw-bold text-white">Internship Tracker</h6><p class="small text-white-50">Manage your future career path with ease.</p></div>
+      <div class="col-md-4 mb-3">
+        <h6 class="fw-bold text-white">Quick Links</h6>
+        <ul class="list-unstyled small">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="internships.html">Internships</a></li>
+          <li><a href="applications.html">Applications</a></li>
+          <li><a href="profile.html">Profile</a></li>
+        </ul>
+      </div>      
+      <div class="col-md-4 mb-3"><h6 class="fw-bold text-white">Contact</h6><p class="small text-white-50">support@uitm.edu.my</p><p class="small text-white-50">Phone: +603-5544 2000</p></div>
+    </div>
+    <div class="text-center small text-white-50 mt-4 border-top border-secondary pt-3">© 2025 Internship System Tracker | UiTM</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Jam function
+setInterval(function() {
+    var now = new Date();
+    document.getElementById("datetime").innerText = now.toLocaleString('en-MY', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute:'2-digit' });
+}, 1000);
+
+function loadDashboard() {
+    var apps = JSON.parse(localStorage.getItem("applications")) || [];
+    var interns = JSON.parse(localStorage.getItem("internships")) || [];
+
+    var accepted = 0;
+    var pending = 0;
+    var rejected = 0;
+
+    for(var i = 0; i < apps.length; i++) {
+        var status = apps[i].status;
+        if(status == "Accepted") {
+            accepted++;
+        } else if(status == "Rejected") {
+            rejected++;
+        } else {
+            pending++;
+        }
+    }
+
+    var posCounts = {};
+    var allData = apps.concat(interns); 
+
+    for(var j = 0; j < allData.length; j++) {
+        if(allData[j].position) {
+            var pName = allData[j].position.toUpperCase();
+            if(posCounts[pName]) {
+                posCounts[pName]++;
+            } else {
+                posCounts[pName] = 1;
+            }
+        }
+    }
+
+    document.getElementById("totalApplied").innerText = apps.length;
+    document.getElementById("acceptedCount").innerText = accepted;
+    document.getElementById("pendingCount").innerText = pending;
+
+    if(Chart.getChart("statusChart")) {
+        Chart.getChart("statusChart").destroy();
+    }
+    if(Chart.getChart("positionChart")) {
+        Chart.getChart("positionChart").destroy();
+    }
+
+    var ctx1 = document.getElementById("statusChart");
+    new Chart(ctx1, {
+        type: 'doughnut',
+        data: {
+            labels: ["Accepted", "Pending", "Rejected"],
+            datasets: [{ 
+                data: [accepted, pending, rejected], 
+                backgroundColor: ["#198754", "#ffc107", "#dc3545"] 
+            }]
+        }
+    });
+
+    var sortedPos = Object.entries(posCounts).sort(function(a,b){ return b[1]-a[1] }).slice(0,5);
+    
+    var ctx2 = document.getElementById("positionChart");
+    new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: sortedPos.map(function(x){ return x[0] }),
+            datasets: [{ 
+                label: 'Frequency', 
+                data: sortedPos.map(function(x){ return x[1] }), 
+                backgroundColor: '#7023d5',
+                borderRadius: 5
+            }]
+        },
+        options: { 
+            indexAxis: 'y', 
+            plugins: { legend: {display:false} },
+            scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        }
+    });
+}
+
+window.onload = loadDashboard;
+
+window.addEventListener('storage', function(e) {
+    loadDashboard();
+});
+</script>
+</body>
+</html>
