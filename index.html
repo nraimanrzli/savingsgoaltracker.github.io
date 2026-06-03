@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | Savings Goal Tracker</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="login-page">
+
+<!-- Login card wrapper -->
+<div class="login-card">
+
+  <!-- LOGO & TITLE -->
+  <div class="text-center mb-4">
+    <img src="assets/img/savings.png" class="login-logo mb-3"
+         onerror="this.style.display='none'">
+    <h4 class="fw-bold mb-1" style="color:#006eff;">Savings Goal Tracker System</h4>
+    <p class="text-muted small mb-0">Personal Finance Management System</p>
+  </div>
+
+  <!-- ERROR - shown on invalid login -->
+  <div id="error" class="alert alert-danger py-2 text-center small fw-bold d-none"></div>
+
+  <!-- USERNAME -->
+  <div class="mb-3">
+    <label class="form-label small fw-semibold text-muted">Username</label>
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+      <input type="text" id="username" class="form-control"
+             placeholder="Enter username" autocomplete="username">
+    </div>
+  </div>
+
+  <!-- PASSWORD - with show/hide toggle -->
+  <div class="mb-2">
+    <label class="form-label small fw-semibold text-muted">Password</label>
+    <div class="input-group">
+      <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+      <input type="password" id="password" class="form-control"
+             placeholder="Enter password" autocomplete="current-password">
+      <button class="btn btn-outline-secondary show-pass" type="button"
+              onclick="togglePassword()" id="toggleBtn">
+        <i class="bi bi-eye" id="eyeIcon"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- FORGOT PASSWORD -->
+  <div class="text-end mb-4">
+    <a href="#" onclick="forgotPass()"
+       class="small text-decoration-none fw-semibold"
+       style="color:#0084ff;">Forgot Password?</a>
+  </div>
+
+  <!-- LOGIN BUTTON -->
+  <button type="button" onclick="login()" class="btn btn-login w-100 mb-3">
+    <i class="bi bi-box-arrow-in-right me-2"></i> Login
+  </button>
+
+  <!-- Divider -->
+  <div class="divider"></div>
+
+  <!-- REGISTER -->
+  <div class="text-center">
+    <p class="small text-muted mb-1">Don't have an account?</p>
+    <a href="#" onclick="signUp()"
+       class="fw-bold text-decoration-none"
+       style="color:#0077ff; font-size:15px;">
+      <i class="bi bi-person-plus-fill me-1"></i> Create New Account
+    </a>
+  </div>
+
+  <!-- Copyright -->
+  <small class="d-block text-center mt-4 text-muted">
+    © 2026 Savings Goal Tracker System
+  </small>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Login logic -->
+<script src="assets/js/login.js"></script>
+</body>
+</html>
